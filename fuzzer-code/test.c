@@ -6,7 +6,7 @@ int main(int argc, char* argv[])
 {
     FILE* fptr = fopen(argv[1], "r");
 
-    char output[32];
+    char output[512];
 
     if(fptr == NULL)
     {
