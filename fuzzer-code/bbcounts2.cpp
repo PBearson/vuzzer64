@@ -80,6 +80,7 @@ BOOL ExceptionHandling(THREADID tid, INT32 sig, CONTEXT *ctxt, BOOL hasHandler, 
         LastExecutedPosRtn = (LastExecutedPosRtn+1)%LAST_EXECUTED_Rtn;
     }
     fclose(crashFD);
+    exit(128 + sig);
     return TRUE;
     //return EHR_CONTINUE_SEARCH;
 }
