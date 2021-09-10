@@ -271,9 +271,9 @@ int main(int argc, char * argv[])
     if (PIN_Init(argc, argv)) return Usage();
     trace = fopen(KnobOutputFile.Value().c_str(), "w");
     TRACE_AddInstrumentFunction(Trace, 0);
-    /* lets add signal intercept for signal 1, 6, and 11. */
-    INT32 signals[3]={1,6,11};
-    for (INT32 sig=0;sig<3;sig++)
+    /* lets add signal intercept for signal 1, 6, 8, and 11. */
+    INT32 signals[4]={1,6,8,11};
+    for (INT32 sig=0;sig<4;sig++)
     {
         PIN_InterceptSignal(signals[sig], ExceptionHandling, NULL);
         PIN_UnblockSignal(sig, TRUE);
