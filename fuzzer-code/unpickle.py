@@ -34,8 +34,13 @@ y2 = [i for i in y[1]]
 f.close()
 
 print "BB weights:"
-print x
+for i in x:
+    addr = "%X" % i
+    weight = x[i][0]
+    print "Address %s: Weight %d" % (addr,weight)
+
 print "\nString immediates seen in CMP instructions:"
 print y1
+
 print "\n Byte immediates seen in CMP instructions:"
 print y2
