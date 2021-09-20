@@ -6,7 +6,7 @@ int main(int argc, char* argv[])
 {
     FILE* fptr = fopen(argv[1], "r");
 
-    char output[512];
+    char output[1024];
 
     if(fptr == NULL)
     {
@@ -16,43 +16,20 @@ int main(int argc, char* argv[])
 
     fscanf(fptr, "%s", output);
 
-    printf("File contents: %s\n", output);
+    // Output[2..4] cannot be "BAD"
+    int cmp = strncmp(&output[2], "BAD", 3);
+    if(cmp == 0) abort();
 
-    int i_value = atoi(output);
+    // Output[0..1] are magic bytes
+    if(output[0] != '\xAB' || output[1] != '\xCD') return 0;
 
-    printf("Int value: %d\n", i_value);
-
-    if(i_value > 1000)
-    {
-        int a = 5;
-        int b = 0;
-        return a / b;
-    }
-
-    char* output_sub = malloc(4);
-
-    strncpy(output_sub, output, 4);
-    printf("First 4 bytes: %s\n", output_sub);
-    int cmp = strcmp(output_sub, "BAD!");
+    // There is a segfault if output[15] == "HELLO"
+    cmp = strncmp(&output[15], "HELLO", 5);
     if(cmp == 0)
     {
-        printf("Oh no, BAD! cannot start the string!\n");
-        abort();
-    }
-
-    if(output[28] == 'A')
-    {
-        if(output[29] == 'B')
-        {
-            if(output[30] == 'C')
-            {
-                if(output[31] == 'D')
-                {
-                    printf("Oh no, ABCD cannot end the string!\n");
-                    abort();
-                }
-            }
-        }
+        int* a = 0;
+        int pa = *a;
+        return pa;
     }
 
     return 0;
