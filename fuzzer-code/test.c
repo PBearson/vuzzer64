@@ -16,20 +16,25 @@ int main(int argc, char* argv[])
 
     fscanf(fptr, "%s", output);
 
-    // Output[2..4] cannot be "BAD"
-    int cmp = strncmp(&output[2], "BAD", 3);
-    if(cmp == 0) abort();
-
     // Output[0..1] are magic bytes
-    if(output[0] != '\xAB' || output[1] != '\xCD') return 0;
-
-    // There is a segfault if output[15] == "HELLO"
-    cmp = strncmp(&output[15], "HELLO", 5);
-    if(cmp == 0)
+    if (output[0] == '\xAB' && output[1] == '\xCD')
     {
-        int* a = 0;
-        int pa = *a;
-        return pa;
+        // There is a segfault if output[10] or output[15] == "HELLO" 
+        int cmp1 = strncmp(&output[10], "HELLO", 5);
+        int cmp2 = strncmp(&output[15], "HELLO", 5);
+        int cmp3 = cmp1 + cmp2;
+        if(cmp3 == 0)
+        {
+            int* a = 0;
+            int pa = *a;
+            return pa;
+        }
+
+        // Compare offsets in output
+        __int8_t n1 = output[2] + output[4] + output[6] + output[8];
+        __int8_t n2 = output[3] + output[5] + output[7] + output[9];
+
+        if(n1 == n2) return 1;
     }
 
     return 0;
